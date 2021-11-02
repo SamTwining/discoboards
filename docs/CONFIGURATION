@@ -1,0 +1,115 @@
+---------------------------------------------------------------------------
+DISCOBOARD CONFIGURATION
+---------------------------------------------------------------------------
+
+Now that you've got DiscoBoard up and running, it's time to configure it
+and set up some message boards.
+
+Message Board Structure
+-----------------------
+DiscoBoard employs a basic heirarchical structure which allows you to 
+group one or more Boards within a "container", or Group as it's known
+to DiscoBoard. The heirarchy only goes 1 level down - Boards belong to
+Groups, but Groups don't belong to Groups. 
+
+This structure is enough to run most message board systems - you don't
+want your users to have to sift through a complex heirarchy to find the
+Board they're interested in.
+
+For now, we'll create a simple system with one Group which contains two
+Boards:
+
+   DiscoBoard Tutorial Group
+    +- General Chat Board
+    `- Support Board
+
+For this, we'll be using the Manage Board Structure tool, which is an
+Administrator tool. You should remember how to get to the Admin menu
+(click Administration!).
+    
+Creating a Group
+----------------
+On your first visit to the Manage Structure tool, you should see a blank 
+screen with no Board Structure in place. The first thing we need to do 
+is create a Group into which we can put Boards:
+
+ - Click "Create a New Group"
+ - Fill in the Group Name "DiscoBoard Tutorial Group"
+ - Fill in a Group Rank "1"
+ - Press Create Group
+ 
+You will be returned to the main page of the Manage Structure tool, but
+you should see a message indicating that the Group creation worked and
+the Group you just created should be visible in the Structure display.
+
+ >>> The "Rank" is a single character you can use to alter the order
+     in which your Groups get displayed to the user. The highest rank
+     is 1, from there it goes down to 9, then A to Z. It's not case
+     sensitive.
+
+Now, we need to create your Boards within this Group. Below the dark 
+grey of the Group row in the Structure, you should now see a link
+labelled "Create New Board in DiscoBoard Tutorial Group". A similar
+link will appear beneath any Group in the Structure display when you
+build up to a more complicated Board Structure later on.
+
+Now we're going to create a new Board within this group. A board has 
+several defining characteristics:
+
+ - The Name of the Board
+ - A Rank (similar to the Group Rank)
+ - The Description of the Board, and
+ - The Group ID to which it belongs
+ 
+Follow the following steps to create the first of our tutorial Boards:
+
+ - Click the "Create New Board" link described above
+ - Fill in the Board Name "General Chat Board"
+ - Fill in a Board Description of your choice - this should describe
+   the Board to a user so they can decide whether or not to visit
+ - Fill in a Board Rank of "1"
+ - Make sure that the selected Group is "DiscoBoard Tutorial Group"
+ - Press Create Board
+
+Now, open a second browser window and go to the front page of your
+DiscoBoard installation. You should see your "DiscoBoard Tutorial Group"
+group in white on a dark grey background. Click on it to Open the Group,
+or click "Open All Groups" for the same effect. You should then see your
+"General Chat Board" with its description show up inside the Group.
+
+ >>> If you click Open All Groups, you will open ALL Groups on the
+     system. For now, there's only one. In the future when you add
+     more Groups and Boards, you may decide that you want to have
+     all Groups open by default - if this is the case, you can set
+     OpenAllGroupsSetting to "all" in the Settings file.
+
+ >>> Advanced Tip: You can use basic DiscoBoard Markup text effects
+     in your Group and Board names to make them stand out that little
+     bit more. You'd be advised to use this feature sparingly, as the
+     more you use it, the less conformity your board system will have
+     and your users may get annoyed or confused.
+ 
+Now, go back to your first browser window. We'll create your second 
+Board now:
+
+ - Click the "Create New Board" link
+ - Fill in the Board Name "Support Board"
+ - Fill in a Board Description of your choice
+ - Fill in a Board Rank of "2"
+ - Make sure that the selected Group is "DiscoBoard Tutorial Group"
+ - Press Create Board
+
+Back in the second browser window, you should now be able to reload the 
+page and see your second Board in the Group.
+
+ >>> If you create a Board in the wrong Group, don't worry - you
+     can use the Edit link next to each Board in the Structure
+     display to change the Group to which a Board belongs.
+
+You've just learned how to configure DiscoBoard's Board Structure. Now, 
+its up to you to create your own Board Structure to make it easy for 
+users to find the Board they want.
+
+---------------------------------------------------------------------------
+DiscoBoard Configuration Guide v1.0
+Jason Murray, March 11, 2003

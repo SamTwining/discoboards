@@ -1,0 +1,129 @@
+.
+`-- htdocs
+    |-- admin-ban.php
+    |-- admin.php
+    |-- banned.php
+    |-- board.php
+    |-- common.php
+    |-- cookiefactory.php
+    |-- debugmode.php
+    |-- elements
+    |   |-- adminchangepass.php
+    |   |-- boardedit.php
+    |   |-- changepass.php
+    |   |-- displaysettings.php
+    |   |-- frameset.php
+    |   |-- groupedit.php
+    |   |-- icongroup.php
+    |   |-- ip-ban.php
+    |   |-- ipsearch.php
+    |   |-- listusers.php
+    |   |-- login.php
+    |   |-- nameformat.php
+    |   |-- newicon.php
+    |   |-- newuser.php
+    |   |-- ownicon.php
+    |   |-- poll.php
+    |   |-- post.php
+    |   |-- profileedit.php
+    |   |-- profileshowfull.php
+    |   |-- profileshowpublic.php
+    |   |-- recoverpass.php
+    |   |-- signature.php
+    |   `-- termsofservice.txt
+    |-- functions.board.php
+    |-- functions.faq.php
+    |-- functions.generic.php
+    |-- functions.html.php
+    |-- functions.session.php
+    |-- gfx
+    |   |-- blank.gif
+    |   |-- faces
+    |   |   |-- face_angry.gif
+    |   |   |-- face_blush.gif
+    |   |   |-- face_confused.gif
+    |   |   |-- face_cool.gif
+    |   |   |-- face_cry.gif
+    |   |   |-- face_grin.gif
+    |   |   |-- face_happy.gif
+    |   |   |-- face_laugh.gif
+    |   |   |-- face_lol.gif
+    |   |   |-- face_love.gif
+    |   |   |-- face_plain.gif
+    |   |   |-- face_rofl.gif
+    |   |   |-- face_sad.gif
+    |   |   |-- face_shocked.gif
+    |   |   |-- face_silly.gif
+    |   |   |-- face_wink.gif
+    |   |   `-- ign
+    |   |       |-- angry.gif
+    |   |       |-- blush.gif
+    |   |       |-- confused.gif
+    |   |       |-- cool.gif
+    |   |       |-- cry.gif
+    |   |       |-- devil.gif
+    |   |       |-- grin.gif
+    |   |       |-- happy.gif
+    |   |       |-- laugh.gif
+    |   |       |-- love.gif
+    |   |       |-- mischief.gif
+    |   |       |-- plain.gif
+    |   |       |-- sad.gif
+    |   |       |-- shocked.gif
+    |   |       |-- silly.gif
+    |   |       `-- wink.gif
+    |   |-- graph-blue.gif
+    |   |-- graph-red.gif
+    |   |-- graph-winner.gif
+    |   |-- icons
+    |   |-- pcwandwwedu.jpg
+    |   |-- poll.gif
+    |   |-- stars
+    |   |   |-- star1.gif
+    |   |   |-- star10.gif
+    |   |   |-- star2.gif
+    |   |   |-- star3.gif
+    |   |   |-- star4.gif
+    |   |   |-- star5.gif
+    |   |   |-- star6.gif
+    |   |   |-- star7.gif
+    |   |   |-- star8.gif
+    |   |   `-- star9.gif
+    |   `-- sticky.gif
+    |-- help.php
+    |-- icon.php
+    |-- index.php
+    |-- ip.php
+    |-- javascript.php
+    |-- layout.php
+    |-- login.php
+    |-- messages.php
+    |-- moderators.php
+    |-- options.php
+    |-- poll.php
+    |-- post.php
+    |-- postedit.php
+    |-- postnew.php
+    |-- private.php
+    |-- puke.php
+    |-- recoverpass.php
+    |-- register.php
+    |-- settings.example.php
+    |-- setup-database.php
+    |-- setup.php
+    |-- stylesheet.disco.php
+    |-- templates
+    |   |-- changepass.txt
+    |   |-- newuser.txt
+    |   |-- recoverpass.txt
+    |   `-- resetpass.txt
+    |-- theme.disco.php
+    |-- theme.frameset.php
+    |-- theme.plain.php
+    |-- theme.redirect.php
+    |-- thread.php
+    |-- user.php
+    |-- usersonline.php
+    `-- watch.php
+
+8 directories, 118 files

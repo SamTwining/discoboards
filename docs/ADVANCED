@@ -1,0 +1,341 @@
+---------------------------------------------------------------------------
+DISCOBOARD ADVANCED CONFIGURATION
+---------------------------------------------------------------------------
+
+[!] Before you go any further, you should understand that this document
+    assumes at least a basic understanding of PHP programming: syntax,
+    concepts and functions are discussed. A working knowledge of HTML
+    and CSS is also handy if you're going to configure the look and feel 
+    of this system.
+ 
+ >>> If you still want to proceed, make sure you keep backups of known
+     good, working Themes and Stylesheets before you commit any changes.
+
+---------------------------------------------------------------------------
+
+So, you've set up your DiscoBoard system. Now you'll want to make it 
+"your own" by perhaps changing the colours, or adding some graphical 
+frills to the page.
+
+This document talks briefly about advanced configuration issues and
+exposes the soft and fleshy belly of DiscoBoard to those who need to
+know how it runs. It covers:
+
+ - Introduction to Themes
+ - System Design Principles
+ - The DiscoBoard StyleSheet
+ 
+This should be enough to cover the basics, but if lots of people have 
+difficulty in doing advanced configurations of DiscoBoard systems, I'll
+have to write some additional documentation. Of course, remember that 
+the person who knows the system best is the one who wrote it. Don't be
+afraid to pop up on ICQ or AIM and ask me to configure something for
+you. :)
+
+The first thing to understand is that you shouldn't need to change ANY
+files except for the Big Three:
+
+ - settings.X.php
+ - theme.blah.php
+ - stylesheet.blah.php
+
+---------------------------------------------------------------------------
+Introduction to Themes
+----------------------
+This document explains how DiscoBoard's Theme System works. A Theme is a
+combination of Theme and Stylesheet files to which DiscoBoard will pass
+its page contents and they'll be enclosed accordingly. 
+
+A Theme file has two main content blocks, $pagetop and $pageend, which 
+are sent out to the browser before and after the main DiscoBoard system 
+output respectively:
+
++-------------------------+
+| Page Top                |
++-------------------------+
+| Main DiscoBoard System  |
+| Output Area             |
++-------------------------+
+| Page End                |
++-------------------------+
+
+With some creative table designs, you could enclose your DiscoBoard in
+a more complicated design:
+
++-------------------------+
+| Page Top                |
++ +---------------------+-+
+| | Main System         | |
+| | Output Area         | |
++-+---------------------+ +
+| Page End                |
++-------------------------+
+
+You may be interested to know that the default "disco" theme is a very 
+simple version of this kind of design.
+
+If you wanted to place a banner advertisement at the top of each page on
+your DiscoBoard system, you'd need to open up your Theme File (the Theme 
+you're using is defined in your Settings file) and insert the HTML code
+for the banner into $pagetop in the appropriate place. Similarly, if you
+wanted *random* banner ads, you'd need to write the logic to generate 
+the banner ads at the top of the Theme file, and use it in the right 
+point in $pagestart or $pagestop.
+
+ >>> A Theme doesn't have to output anything. Let's say you decide to
+     move your DiscoBoard system to a different URL. In order to *not*
+     break any bookmarks users may have on their own systems, you can
+     use a Theme which redirects users to the new URL. An example of 
+     such a Theme (theme.redirect.php) is included which doesn't do
+     anything except a Header() to redirect the browser and then it
+     just Exit()'s altogether.
+
+Because the Theme file is a PHP script, you need to be sure you don't
+break the PHP syntax when you're editing it. If you do, you'll know 
+you've done it soon enough - the board's look and feel will disappear
+and be replaced by an error message.
+
+---------------------------------------------------------------------------
+System Design Principles
+------------------------
+(or, "Why Things Are The Way They Are")
+DiscoBoard is a modular system in that each main file in the system 
+carries out one singular purpose. The web-accessible files are kept in 
+one directory, on a flat level (there's not much point putting them 
+into a directory structure, since the system's contents are all drawn 
+from a database).
+
+The most important concepts and files are explained here, so that you 
+can modify the system as needed:
+
+ - Elements (kept in the elements/ directory)
+   These files are kept in the elements/ directory, and are called 
+   upon by the system as needed via include(). Each file is a simple
+   PHP script which defines a form or some variable. If you're using
+   an element file, you'll already know what variable it defines.
+   DiscoBoard's elements contains things like the login form, new 
+   post form, a frameset and profile edit/show tables.
+ 
+ - Templates (kept in the templates/ directory)
+   These are templates for outbound emails. When a DiscoBoard function
+   needs to send an email, it will get the template data with file(),
+   and send it with sendSystemEmail() which adds the proper headers and
+   signature to the outbound email. 
+ 
+ - Important System Files
+   There are a number of files which serve an important purpose in the
+   DiscoBoard system. These are files you shouldn't need to touch, or
+   edit. Here's a brief roundup:
+   
+    - common.php
+      Decides what the name of the settings file should be, include()'s
+      it, establishes the connection to MySQL, sets up configuration
+      defaults, include()'s function files and performs session 
+      validation.
+    
+    - functions.*.php
+      Support functions that actually perform most of the hard work
+      behind the scenes to make DiscoBoard work. These are broken up
+      into board-, html-, session-related and generic functions.
+    
+    - javascript.php
+      Support JavaScript functions, as needed. There's only on at the
+      moment, which is used to make moderators confirm a delete post
+      command. This file should be referred to by a Theme.
+    
+    - layout.php
+      Decides what options to display to the user in the menu row, 
+      forms the navigational heirarchy, and populates pagination and 
+      other related informational rows on the system layout. Finally,
+      it include()'s the Theme file and echo's its output.
+      
+    - puke.php
+      Not strictly part of DiscoBoard at all - this script just runs
+      phpInfo() for debugging purposes
+      
+    - setup.php
+      This script's sole purpose is to take a username and upgrade it
+      to Super User status. Once this is done, you should either delete
+      it or chmod it to 000.
+
+---------------------------------------------------------------------------
+The DiscoBoard StyleSheet
+-------------------------
+This section describes the CSS styles used in a DiscoBoard stylesheet. 
+In future DiscoBoard releases, further styles may be added. These will
+be advised in the upgrade notification.
+
+The CSS styles applied to DiscoBoard systems are:
+
+A 
+
+  Standard look and decoration for links
+
+A:hover
+
+  Standard look and decoration for links when the mouse is over them
+
+BODY, TD
+
+  Default text for use on a page and in a table cell (TD) - should be
+  the same for simplicity
+
+.PlainText
+
+  Plain, unadorned text. For use when breaking out of a previously-set
+  CSS style. Mainly used in elements.
+
+.MainTable 
+
+  Style applied to the cell/table into which all DiscoBoard system 
+  output is put. Think of this style as the background style of the 
+  system, but hovering over the page background.
+
+.MainMenuRow
+
+  The standard style for a main menu row - the rows which show options, 
+  items and navigational heirarchy at the top and bottom of the pages. 
+  This is usually a dark colour.
+
+.MainMenuRowAlt
+
+  Allows use of alternating backgrounds for main menu item rows in 
+  future releases. Should have a slightly different background colour 
+  to its sibling, MainMenuRow.
+
+.MainMenuLink
+
+  Style for presenting a link in the MainMenuRows. This should be a
+  colour which stands out over the color of a MainMenuRow *and* a 
+  MainMenuRowAlt
+
+.MainMenuLinkLight
+
+  A lighter version of MainMenuLink, this is applied to the username of
+  the currently-logged-in user when their name is displayed in the top
+  of the page in a MainMenuRow.
+
+.BoardColumn
+
+  This style is used to denote column headings in lists of items in the
+  DiscoBoard system. It's usually almost as dark as MainMenuRow, and has
+  a light coloured text
+
+.BoardColumnLink
+
+  Can be used for links in BoardColumn cells. Not currently used.
+
+.BoardRowHeading
+
+  The style applied to the heading (subject, post date, edit data and use
+  controls) in a Thread display.
+
+.BoardRowHeadingLink
+
+  Style applied to links within BoardRowHeading
+
+.BoardRowBody
+
+  The "normal" style for lists of items in a DiscoBoard system.
+
+.BoardRowBodySticky
+
+  This style is applied to Sticky Threads in a Thread list. You can set 
+  it to a slightly different colour to indicate to the user that it's 
+  Sticky, while not differentiating it too much from BoardRowBody.
+
+.BoardRowBodyLink
+
+  A normal link in the BoardRowBody style.
+
+.SubjectLink
+
+  The style used to display Thread Subjects.
+
+a.SubjectLink
+
+  The style used to display Thread Subjects, specifically applied to 
+  anchor tags. Most SubjectLink styles are bold.
+
+a.SubjectLink:active
+
+  The style used to display a Thread subject that's being clicked on. 
+  You could turn it red or a similar effect. Again, bold.
+
+a.SubjectLink:visited
+
+  To indicate to the user that they've seen all a Thread has to offer,
+  this should be exactly the same as SubjectLink, but not bold.
+
+.AuthorLink
+
+  The default style applied to a link made on a user's Username.
+
+.AuthorLinkSmall
+
+  A smaller version of the default style applied to a link made on a 
+  user's Username, which is used when displaying the identity of the 
+  last poster to a thread. This should be exactly the same as 
+  AuthorLink, but smaller.
+
+.VersionText
+
+  The style applied to the Version Information in the footer of the 
+  normal DiscoBoard system. This should only lightly contrast with 
+  MainTable.
+
+.InputSection
+
+  Section headings for user-input forms. Usually just like PlainText, 
+  but Bold.
+
+.InputNotes
+
+  Not currently used.
+
+.SignatureTitle
+
+  The style used to display "----- Signature -----" in every message.
+
+.SignatureText
+
+  The style used to display a user's actual signature (could perhaps 
+  set this colour to 75% of the normal text colour)
+
+B
+
+  Just a bold text tag.
+
+.red
+
+  Just a red colour tag.
+
+.grey
+
+  Just a grey colour tag.
+
+.statistictext
+
+  The text style used on the statistic line on the main page.
+
+.statisticvalue
+
+  The text style used on the actual statistics within .statistictext.
+
+.QuotedText
+
+  Style which is applied to a table cell when [q][/q] markup text is 
+  used.
+
+.tos
+
+  Style applied to the textarea containing the Terms of Service on the
+  user registration page.
+
+.AdminMenuLink
+
+  Style applied to menu items in the Administration frame.
+
+---------------------------------------------------------------------------
+DiscoBoard Advanced Configuration Guide v1.0
+Jason Murray, March 11, 2003

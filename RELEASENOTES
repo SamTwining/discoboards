@@ -1,0 +1,223 @@
+               ___  _ ____ ____ ____ ___  ____ ____ ____ ___  
+               |  \ | [__  |    |  | |__] |  | |__| |__/ |  \ 
+               |__/ | ___] |___ |__| |__] |__| |  | |  \ |__/ 
+ 
+                  DiscoBoard Release Notes: Version 1.7.1
+                  ---------------------------------------
+April 24, 2003
+
+More patches and updates. Special thanks must go to carlmmii for his
+one-man crusade to find bugs / exploits / holes and report them for
+this release. With his help, DiscoBoard is slowly becoming a lot more
+robust.
+
+---------------------------------------------------------------------------
+Where To Download v1.7.1
+------------------------
+ - Full Installation
+   http://www.discosis.com/discoboard/discoboard_171.zip
+ - Upgrade from DiscoBoard 1.7
+   http://www.discosis.com/discoboard/discoboard_upgrade_17_171.zip
+
+---------------------------------------------------------------------------
+New Features over v1.7
+----------------------
+ - New markup code:
+    - /me is replaced with IRC-style "* (name of poster)"...
+    - [icon=URL] makes a pretty display intended for a board icon 
+      (80x80) but really could be used for any 80x80px image
+   
+---------------------------------------------------------------------------
+Updates and Changes over v1.6.2
+-------------------------------
+ - Icon selection is fixed so you can see the icons again (whoops)
+ - IP checker now works again out-of-the-box
+ - PMs are now sorted recent-oldest
+ - Easier to add lots of icons to the same group
+ - Paginated icon management
+ - Removed markup exploits in various locations that could break the
+   system's HTML layout
+ - System default posts- and threads-per-page settings are now written
+   to the profile of a new user
+ - Number of posts "today" on the front page should now be indicative of 
+   the number of posts made since 00:00 in the user's timezone
+ - Removed anyone-can-lock-any-thread security hole
+ - Fixed decrementing of the reply count in a thread when a message is
+   deleted from it
+ - Titles can now have markup codes used in them
+ - IGN faces are now carlmmii's replacements
+    
+---------------------------------------------------------------------------
+Updated File Listing
+--------------------
+ - /admin.php
+ - /common.php
+ - /functions.admin.php
+ - /functions.board.php
+ - /functions.textformat.php
+ - /help.php
+ - /ip.php
+ - /postedit.php
+ - /options.php
+ - /icon.php
+ - /moderators.php
+ - /admin-titles.php
+ - /user.php
+ - /elements/post.php
+ - /elements/usertitle
+ - /elements/profileshowfull.php
+ - /elements/profileshowfull.php
+ - /gfx/faces/ign/angry.gif
+ - /gfx/faces/ign/blush.gif
+ - /gfx/faces/ign/confused.gif
+ - /gfx/faces/ign/cool.gif
+ - /gfx/faces/ign/cry.gif
+ - /gfx/faces/ign/devil.gif
+ - /gfx/faces/ign/grin.gif
+ - /gfx/faces/ign/happy.gif
+ - /gfx/faces/ign/laugh.gif
+ - /gfx/faces/ign/love.gif
+ - /gfx/faces/ign/mischief.gif
+ - /gfx/faces/ign/plain.gif
+ - /gfx/faces/ign/sad.gif
+ - /gfx/faces/ign/shocked.gif
+ - /gfx/faces/ign/silly.gif
+ - /gfx/faces/ign/wink.gif
+ 
+----------------------------------------------------------------------------
+ToDo
+----
+
+If you have a feature request, please post it on boards.shadow.net.au. 
+This list is drawn from the Suggestions and Bug Reports boards.
+
+ - Decrement post counts for users who posted in a thread you deleted
+ - Allow deletion of access classes
+ - Add checkboxen to IP Ban listing to allow select then (de)activate or
+   delete selected bans according to user selection
+ - Configurable from/subjects for system emails
+ - Admin tool to change the value of a user's postcount
+ - Preview for PMs
+ - Preview for Polls
+ - Add drop-down page number selection to pagination navbar
+ - Configurable custom message to show users who are banned
+ - Some kind of Search Posts tool
+ - Mass deletion tool based on ID of author of thread's first post
+ - Profanity filter preference - "always-on" or "user-choice"
+ - Access class overhaul: 
+    - Administrator (ensures the system is running, etc)
+    - Manager (day to day running of the board, admin issues)
+    - Moderator (some extra tools like banning + user notes)
+ - Separate threshold settings by access class
+ - Forum permissions
+    - Super User rights base: /
+    - Standard User rights base: /public
+    - assign rights base to a board (default: /public)
+    - visible / browse / newthread / reply permissions
+       - /public/visible -- is visible to public users
+       - /public/browse -- public users can browse threads
+       - /public/newthread -- public users may make new threads
+       - /public/reply -- public users may reply
+    - assign right types to access classes
+    - convert user's rights into SQL filters to modify select statements?
+   
+----------------------------------------------------------------------------
+Detailed Change List over v1.7
+------------------------------
+System Files:
+ - admin.php
+    - adding an icon now gives you a link for "add another icon here"
+    - icon management icon display is now paginated (25 per page, this
+      value is hard-coded - should be fine)
+ - common.php
+    - version bump :)
+    - now defines global stuff-not-allowed-in-urls regex
+ - functions.admin.php
+    - removed debugging info from newIcon()
+ - functions.board.php
+    - getIcon() wasn't returning an icon in certain conditions (most
+      notably, user options' icon browser)
+    - showPoll() now passes its options thru applyOnlyTextEffects()
+      before display - so you can now use text markup
+    - outputWatchedThreads() now retrieves the length of the first post
+      in the thread, avoiding (nt) popping up everywhere
+    - postSearch() reversed ORDER BY clause (ASC-to-DESC) for PMs
+    - formatPost() now runs applyOnlyTextEffects() on user's title
+    - listIcons() now passes inbound link parameters option on to 
+      getPaginationInformation()
+    - createUser() now uses system default values for perpagethreads 
+      and perpageposts
+    - boardStats() should now calculate the number of posts "today" from
+      00:00:00 on the day, based on the user's timezone
+ - functions.textformat.php
+    - new markup:
+       - [icon=URL] displays a nice padded icon (carlmmii)
+    - bodyText() now accepts $displayname, passes to textEffects for /me
+    - bodyText() now eats certain tags formed with the intent of exploits
+    - textEffects() now supports /me if $displayname is passed in
+ - help.php
+    - added new markup codes
+ - ip.php
+    - now has admin functionset, thus works again (oops)
+ - postedit.php
+    - more robust checking of lock-this-thread options so lamer users 
+      can't exploit this to lock their own threads
+    - now has a proper grammatically correct success message
+ - options.php
+    - now validates colour codes before using them in name formatting
+ - icon.php
+    - detects illegal characters in URLs and denies use of such icons
+ - moderators.php
+    - now decrements the postcount for a thread when deleting a message
+ - admin-titles.php
+    - now has the correct page name (its not the file viewer)
+    - runs applyOnlyTextEffects() on user's title before outputting it
+ - user.php
+    - now checks for disallowed characters in web and pic url's
+    
+Elements:
+ - post.php
+    - markup help link opens its page in a new window
+ - usertitle
+    - fixed field label of "username" for "new title"
+ - profileshowfull.php &
+ - profileshowfull.php
+    - now runs applyOnlyTextEffects() where appropriate so users can't
+      modify the structure of the profile page's HTML but can now use
+      markup in some profile fields
+
+Grahphics:
+ - Updated IGN faces by carlmmii
+    - faces/ign/angry.gif
+    - faces/ign/blush.gif
+    - faces/ign/confused.gif
+    - faces/ign/cool.gif
+    - faces/ign/cry.gif
+    - faces/ign/devil.gif
+    - faces/ign/grin.gif
+    - faces/ign/happy.gif
+    - faces/ign/laugh.gif
+    - faces/ign/love.gif
+    - faces/ign/mischief.gif
+    - faces/ign/plain.gif
+    - faces/ign/sad.gif
+    - faces/ign/shocked.gif
+    - faces/ign/silly.gif
+    - faces/ign/wink.gif
+
+    
+----------------------------------------------------------------------------
+Author Contact Information
+--------------------------
+Jason Murray
+Email: work@shadow.net.au
+ICQ: 13379254
+AIM: disc24au
+
+Snail mail (in case you feel, er, "generous"):
+78/283 Spring Street
+Melbourne,
+Victoria, 3000,
+Australia
+
+----------------------------------------------------------------------------

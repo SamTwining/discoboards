@@ -1,0 +1,189 @@
+---------------------------------------------------------------------------
+DISCOBOARD ADVANCED CONFIGURATION
+---------------------------------------------------------------------------
+v1.7.1
+------
+ - New markup code:
+    - /me is replaced with IRC-style "* (name of poster)"...
+    - [icon=URL] makes a pretty display intended for a board icon 
+      (80x80) but really could be used for any 80x80px image
+ - Icon selection is fixed so you can see the icons again (whoops)
+ - IP checker now works again out-of-the-box
+ - PMs are now sorted recent-oldest
+ - Easier to add lots of icons to the same group
+ - Paginated icon management
+ - Removed markup exploits in various locations that could break the
+   system's HTML layout
+ - System default posts- and threads-per-page settings are now written
+   to the profile of a new user
+ - Number of posts "today" on the front page should now be indicative of 
+   the number of posts made since 00:00 in the user's timezone
+ - Removed anyone-can-lock-any-thread security hole
+ - Fixed decrementing of the reply count in a thread when a message is
+   deleted from it
+ - Titles can now have markup codes used in them
+ - IGN faces are now carlmmii's replacements
+ 
+v1.7
+----
+ - New markup code:
+    - [strike][/strike] does strikethrough
+    - [spaces][/spaces] tells the browser to output all whitespace
+    - [bq][/bq] is shorthand for [blockquote]
+ - Admin: New tool allows source code inspection of any file
+ - Admin: New tool allows you to set a title for any Member
+ - Icons: The icon system now runs from the database instead of the
+   filesystem. This means no more headaches with write access to the
+   gfx/icons directory! Run setup-icons.php until you can't run it
+   anymore and your icon migration is complete.
+ - URL-grabber now allows ~ character (and don't I feel silly)
+ - URL-grabber now allows & character (somehow...)
+ - Only shows users active in the last 10 minutes in Currently Online
+ - View-thread link shown after making a new post now goes to the page
+   your post is on (well, the last page ... that should be the one your
+   post is on unless your board is very busy!)
+ - You can use AccessProtocol to tell DiscoBoards it's running in https
+ - Banned users can no longer post, even when they've logged in prior
+   to being banned
+ - Thread deletion now asks for confirmation via Javascript
+ - Database query optimisation - now fetches username formatting as
+   part of bulk listing operations rather than querying the database
+   for (nearly) every username displayed
+ - Commenced splitting of function files, to optimise page load times
+   by not loading unneccessary functions
+ - Users can no longer lock a thread they didn't start by posting and
+   editing their post
+ - Now properly checks a user's threshold setting prior to posting
+ - Users now get stars when they reach a level, rather than when they
+   exceed it
+
+
+v1.6.2
+------
+ - Rudimentary database setup script - run it, copy the SQL from the 
+   files in support/ (database-tables.sql, database-data.sql) and then 
+   DELETE this file. No need for already-running systems to do anything, 
+   just delete the file.
+ - It's now possible to ban someone from the system by their IP address
+   rather than banning their account. This can be done either with a
+   specific user in mind (block all access from IP X from user Y), or
+   just a blanket block on all access from an IP.
+ - Private messages now strip slashes a little more intelligently on
+   sending and replying
+ - unsupported [markup] [codes] are now ignored
+ - Now sends no-cache headers for each page if you're logged in ('cos
+   iPrimus' proxy server sucks)
+
+---------------------------------------------------------------------------
+v1.6.1
+------
+ - Session logout bug has been fixed... sorry :)
+
+---------------------------------------------------------------------------
+v1.6
+----
+
+ - Added support for customised Terms Of Service
+ - Admin tools have been rebuilt to present themselves in a frameset 
+   so they're always available to admins who wish to have them that way
+ - Private Messages now output their Message ID in the controls area, so
+   that a user can alert administrator about a message's contents by 
+   just giving the message ID
+ - Admins can now make notes about a user (notes are available to all
+   administrators)
+ - Added admin tool to view a single message
+ - DiscoBoard can now address its database tables with a prefix to them,
+   so that it can coexist happily with other applications in the same
+   database and maintain unique table names.
+ - Users without an icon set now don't see anything
+ - Moderator functions don't output debugging information
+ - Markup problems with links and images FINALLY fixed (fingers crossed)
+ - Following the KISS principle, board and thread viewing functionality 
+   has been moved out of index.php, to board.php and thread.php and 
+   linkage has been adjusted sitewide.
+   >>> If you're using settings.X.php or indeed anything else to add 
+       custom deep links to existing boards or threads to any part of 
+       your site or board configuration, you will need to change those 
+       links by going to the page manually and re-copying the URL. 
+       Sorry.
+ - Admin tools now output system-standard tables instead of plain ones
+ - Groups / Favourite Board display page now offers an option to Open or
+   Close All groups, if appropriate (decided by system default for the
+   same thing)
+ - Admins can now move boards from group to group
+ - Users can now select No Icon if they already have one
+ - Icon deletion should be fixed now (again)
+ - Fixed a bug in Display Options that would set the user's threads/page
+   selector by default to their posts/page setting
+ - Removing a user from the Watched User List was broken in v1.52, now
+   fixed so you can remove users you don't like again :)
+
+---------------------------------------------------------------------------
+v1.52
+-----
+ - Moderators can now lock/unlock a thread when editing a post in that 
+   thread
+ - Users can now lock/unlock their own threads within the edit time 
+   limit
+ - User access classes can now have a default format specified - this 
+   format will be copied into a user's settings when they're moved from 
+   one class to another
+ - URL-grabber got a bit greedy and took anything with "..." to be a 
+   URL. This version now has a workaround in place.
+ - Moved edit-existing-post functionality into a separate page 
+   (postedit.php)
+ - Preview now works properly (would previously break edit-prev-edit 
+   chain)
+ - IP Search didn't include its' form element properly, and broke
+ - Site Administrators can now decide whether they want to display the 
+   ID of the last poster to a thread or not
+ - IP Searching now returns the hostname that an IP resolves to
+
+---------------------------------------------------------------------------
+v1.51
+-----
+ - Localised timezone settings for members (configure: Options-Display)
+
+---------------------------------------------------------------------------
+v1.5
+----
+ - Can now completely disable logins
+ - Formatting of user's post count is 1,000 not 1000 in profiles
+ - Slghtly more informative timezone settings
+ - CSS construction of name borders now uses MSIE-Idiot-Proof(tm) 
+   border attribute if all borders are on instead of defining all 
+   four borders individually.
+ - Now sends the user an email when their password is changed
+ - Now orders WUL entries alphabetically
+ - Now logs user's current IP address at registration
+ - Now formats numbers (post counts mainly) properly as x,xxx.
+ - No longer counts editing a post in threshold calculations
+
+---------------------------------------------------------------------------
+v1.41
+-----
+ - Localised timezone settings for members (via Display in Options)
+
+---------------------------------------------------------------------------
+v1.4
+----
+ - Watched User List (WUL) - users can now watch other users
+ - Watch a Thread - users can watch their favourite threads
+ - Profile display enhancements:
+    - Online status indicators for instant message mediums
+    - Watched User List
+    - Watching User List
+    - Class name shown after username for non-hidden classes
+ - Users with custom username formats can now specifically select bold
+ - Link to thread view on Post Reply page
+ - Private message Sent Messages pagination is now correct - it used to 
+   count ALL messages you've sent rather than just private (which 
+   explains why most people's message lists ended on page 2).
+ - Watch Thread no longer 404's since watched threads are now 
+   implemented
+
+(Changes prior to v1.4 have been removed)
+
+---------------------------------------------------------------------------
+DiscoBoard History
+Jason Murray, March 11, 2003

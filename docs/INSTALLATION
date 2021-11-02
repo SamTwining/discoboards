@@ -1,0 +1,289 @@
+---------------------------------------------------------------------------
+DISCOBOARD INSTALLATION
+---------------------------------------------------------------------------
+
+This is a quick and dirty guide to installing DiscoBoard on your system.
+
+The Basics
+----------
+
+System Requirements:
+ - Apache Web Server
+ - PHP 4.x
+ - MySQL
+
+ >>> Note: Some free hosting services restrict use of the mail() function
+     within PHP. These services are not suitable for running DiscoBoard, 
+     as the system only emails the user's password to them. If you do 
+     install DiscoBoard on such a system, you won't be able to log in.
+
+What you need to know before installing DiscoBoard:
+ - The URL you will use to access the system (front page)
+ - MySQL Connection Details:
+    - Hostname
+    - Port Number
+    - Username
+    - Password
+    - Database Name
+
+A Word About Your Database
+--------------------------    
+For now, only MySQL is supported. Future versions of DiscoBoard may use
+PHP's PEAR Database Abstraction functionality to support other types of
+database.
+     
+Unpacking DiscoBoard
+--------------------
+The main DiscoBoard distribution comes packed in a zip file. Inside the 
+zip file, you'll find the following directory structure:
+
+  discoboard.zip
+   +- docs/
+   +- htdocs/
+   |   +- elements/
+   |   +- gfx/
+   |   |   +- faces/
+   |   |   |   `- ign/
+   |   |   `- stars/
+   |   `- templates/
+   `- support/
+ 
+Files under htdocs/ form the public face of DiscoBoard. Copy them to the
+directory to which you intend to install DiscoBoard. Usually, "htdocs" is
+the name of the root directory of a webserver. It doesn't matter what you
+name "htdocs", as long as the names and directory structures beneath it
+remain as they are in the distribution file.
+
+You may put the other directories whereever you see fit. They don't need
+to be web-accessible, though.
+
+One important change you should make immediately is to copy the files
+named theme.disco.php and stylesheet.disco.php to new names. The "disco"
+part of the files is called the Theme Name, which we'll get into later
+on. For now, think of a new Theme Name (it doesn't have to be long), and
+rename the files to theme.X.php and stylesheet.X.php where X is your
+new Theme Name.
+
+Naming Your DiscoBoard's Settings File
+--------------------------------------
+DiscoBoard is configured by a settings file which resides in its root
+directory. The name of this file won't be the same for two DiscoBoard
+installations, because it's derived from the HTTP hostname of the site
+it's running on. 
+
+ >>> The settings file is named this way in order to accomodate some 
+     larger sites which may wish to run more than one board system 
+     from the same DiscoBoard software installation but maintain a
+     different system database.
+
+The HTTP hostname is a part of the URL string you type into a browser:
+
+  http://http-hostname/directory/directory/file
+
+So, whether your forums are going to live at http://www.abc.com/forums
+or at http://www.abc.com/~mywebsite/interactive-stuff/forums, the HTTP
+Hostname is still "www.abc.com".
+
+Taking the HTTP Hostname, derive a plain lowercase alphanumeric version
+of it by removing everything except numbers and letters. We'll call this
+the Identifier. In the above examples, the HTTP Hostname "www.abc.com"
+becomes an Identifier of "wwwabccom".
+
+Now you need to copy settings.example.php to settings.identifier.php. 
+The above examples would become "settings.wwwabccom.php". Remember to
+keep a copy of settings.example.php around in case you make a mistake
+while editing it.
+     
+Configuring DiscoBoard
+----------------------
+Now, open up your Settings file in your favourite text editor (just as
+an aside - this should NOT be Microsoft Word!). Something that supports
+PHP syntax highlighting (like Homesite) is great, since it will clearly
+denote to you what portions of the file are comments and what's there to
+be edited.
+
+Before filling in this information, hit "puke.php" with your browser. It
+will output PHP's environment configuration and debugging information
+for the server you've installed DiscoBoard to.
+
+Most of the information in your Settings file is filled in to a default
+value which is enough to get your DiscoBoard system running. From there,
+you can worry about configuring it futher. The most important pieces of
+information you need to supply are (from the top):
+
+ - ServerAddress
+   If puke.php doesn't show a value (or shows the wrong value) for
+   HTTP_HOST, you will need to fill this value in.
+
+ - DocRoot
+   This is the directory which serves as your website's root directory.
+   Even if you're not installing DiscoBoard in the root directory, you 
+   need to fill this value in. If puke.php doesn't show any value for
+   DOCUMENT_ROOT, or its value is incorrect, you will need to fill this
+   in yourself. You can make a guess at the correct value by looking at
+   the value for PHP_SELF in puke.php.
+   
+ - BaseDir
+   This is the directory path to the root directory of the website with 
+   your DiscoBoard installation to your actual installation directory. 
+   So, if you were to install your DiscoBoard system at 
+   http://www.abc.com/mystuff/forums then BaseDir is /mystuff/forums.
+   Note that if you fill in a value for BaseDir, you need to put a 
+   leading slash ("/") at the start of it otherwise various operations
+   may fail later on.
+   
+ - MySQL Information
+   Your system administrator or helpdesk should be able to provide this
+   information to you if you don't already have it. You need:
+    - MySQLServer
+      The server (or server:port) to which you connect for MySQL
+    - MySQLUsername and MySQLPassword
+      The authentication credentials you need in order to connect
+    - MySQLDatabase
+      The name of the database within MySQL into which you set up 
+      the tables in the Database Setup stage
+
+ - DatabasePrefix
+   The prefix for all DiscoBoard tables within your MySQL database. You
+   were told to remember this earlier, so let's hope you have :). The
+   default is "disco".
+   
+    >>> If you wish to change the prefix from the default of "disco",
+        you will need to use rename-tables.sql under the support/ 
+        directory of the DiscoBoard distribution. You may need to
+        edit this file to perform the right renames, but remember
+        that you need to use the SAME prefix for ALL tables.
+        
+ - ThemeName
+   Set ThemeName to the Theme Name you decided on earlier. It's very
+   important that you don't use "disco", as this Theme will be used
+   for demonstrating new features in future updates, and you may lose
+   the custom configurations you did to your Theme and Stylesheet
+   files.
+   
+You have now entered enough information to get your DiscoBoard up and
+running. You can revisit the settings file later to explore the options
+available to you. The purpose of each setting is documented immediately
+above it in PHP comments (lines leading with //). Remember that this IS
+a PHP file, so if you make any mistakes the PHP interpreter will throw
+an error when you attempt to use DiscoBoard.
+
+Setting Up The Database
+-----------------------
+Now that you've filled in the details in your settings file, you're all
+set to populate the database with the tables needed to run DiscoBoard.
+
+First, visit /setup-database.php with your web browser. You will see
+a large blank text input area. Under support/, you will find a file that
+contains the database structure - database-tables.sql. Paste the SQL
+commands contained within that file into the text input area on this
+page, and press "Process Query". The page will reload with a lot of
+SQL statements echo'd out to the browser to show you that it worked.
+
+Next, also under support/, you will find database-data.sql which is the
+SQL needed to populate basic tables like User Classes, Country Names and 
+so forth. Again, copy the SQL commands from this file, paste them into
+the text input area and press "Process Query".
+
+ >>> If you see errors while processing these SQL commands, it's
+     likely that your MySQL connection is not configured properly
+     in your Settings file.
+  
+ >>> The names of all of DiscoBoard's database tables, by default, 
+     start with the word "disco". This is important for later, so 
+     remember it now.
+     
+ [!] IMPORTANT - DELETE THIS FILE WHEN YOU'RE FINISHED WITH IT!
+     This file (setup-database.php) is a SECURITY RISK. Do not leave
+     it in a web-accessible directory after you run it, as it can run
+     any query on your database - your entire database can be deleted
+     if it's left accessible.
+
+Now, your database setup is complete and we're ready to finish setting
+up your DiscoBoard installation.
+
+Setting Up: The First User
+--------------------------
+Now, go to the front page of your DiscoBoard installation. You should
+see a plain page with some menu options and a Register link. Follow the
+Register link, and create an account called "System" or "Administrator"
+with an email address you have access to.
+
+ >>> You shouldn't use your normal email address for this account, as
+     it won't be used very often, and DiscoBoard enforces unique email
+     addresses amongst its user database.
+
+ >>> It doesn't actually matter what you call this first account, but
+     the first post in any message board will be made by this account
+     so it's worth calling it something that gives an impression of its
+     purpose rather than creating a personal account for yourself.
+
+Now you've created your first user, which we'll call your Maintenance
+Account. It's time to upgrade them to Super User status so that you can 
+establish some control over DiscoBoard:
+
+ - Go to /setup.php 
+ - Enter the username you just created, and press Upgrade
+
+The user you just created is now a Super User, with complete control
+over DiscoBoard.
+
+ >>> When you Upgrade an account with setup.php, you will see text
+     on the screen which advises you to delete the file because it
+     constitutes a security risk. This is because any user who is
+     familiar with DiscoBoard's internal workings could register 
+     an account on your system and use setup.php to upgrade their
+     account to Super User without your knowledge. It is HIGHLY
+     recommended that you delete setup.php now.
+
+Setting Up: Your Own Account
+----------------------------
+Now, you should create a second account - your Personal Account - for 
+your everyday use. This will be the account you log into each day, and 
+you should now use your normal email address. Once you're done, log into 
+the Maintenance Account (the first account you created - the email which
+contains the password should have arrived by now). There is no need to 
+log into your Personal Account just yet.
+
+ >>> Now that setup.php has been deleted, the only way for anyone to get
+     upgraded to Super User status is for them to be upgraded by another
+     Administrator.
+
+Now it's time to upgrade your personal account to administrator status.
+Click on the Administration option on your menu bar to go into the Admin
+menu system. This takes the form of a frame to the left of your browser
+which shows the Administration options currently available. We're going
+to use the Manage Users tool, so click on that.
+
+Setting Up: Managing Users
+--------------------------
+The Manage Users tool gives you a username search to the left of the
+page and an Access Class Summary to the right, showing the number of
+account that exist in each Access Class. At the moment, you should
+see one Super User and one Standard.
+
+You can either click on the word "Standard" to show all accounts in 
+that class, or enter a part of your Personal Account's username to
+find it.
+
+ >>> Note that the Manage Users tool will allow you to modify the 
+     account you are currently logged into.
+
+To the right of your Personal Account's username is a checkbox, which 
+you can tick to indicate to the system that you want to perform some
+action on this account. When you have more users, you can select more 
+than one account to modify at once using this technique. Now, tick the 
+checkbox next to your Personal Account and select "Set user class: Super 
+User" from the drop-down menu, then press Modify Users.
+
+Your Personal Account has now been upgraded to the Super User class, just
+like the Maintenance Account. Now it's time to log out of the Maintenance
+Account and log into your Personal Account.
+
+ >>> You shouldn't need to log into the Maintenance Account anymore.
+ 
+Your DiscoBoard system is now up and running - enjoy!
+
+---------------------------------------------------------------------------
+DiscoBoard Installation Guide v1.0
+Jason Murray, March 11, 2003
